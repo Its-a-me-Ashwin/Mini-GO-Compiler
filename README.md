@@ -2,6 +2,7 @@
 CD Project
 
 
-TO DO:
-* Test the coment remover
-* Find the rest of this TODO
+TO RUN:
+* lex symbol.l
+* gcc lex.yy.c
+* ./a.out
