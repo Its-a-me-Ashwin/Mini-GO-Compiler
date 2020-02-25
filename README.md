@@ -3,8 +3,7 @@ CD Project
 
 Dpendencies:
 
-Lex 2.6.4
-Yacc 1.9
+Lex 2.6.4 ,Yacc 1.9 (sudo apt-get install byacc flex)
 
 TO RUN:
 * Phase 1
