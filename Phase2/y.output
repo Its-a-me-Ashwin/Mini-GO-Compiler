@@ -1,0 +1,1916 @@
+   0  $accept : Go $end
+
+   1  Go : T_PACKAGE T_MAIN Import
+
+   2  Import : Main
+
+   3  Main : T_TINT T_MAIN OpenParan CloseParan OpenScope Scope CloseScope
+
+   4  BasicScope : VariableDefine
+   5             | Expression3
+   6             | IOStatement
+   7             | While
+   8             | Switch
+   9             | SemiColon
+
+  10  Scope : BasicScope Scope
+  11        | T_RETURN Expression3
+  12        |
+
+  13  Scope2 : BasicScope
+  14         | T_BREAK SemiColon
+  15         | T_CONTINUE SemiColon
+
+  16  Scope3 : Scope3 Scope2
+  17         | Scope2
+
+  18  LoopScope2 : Scope2
+
+  19  While : WhileHead OpenScope Scope3 CloseScope
+  20        | WhileHead LoopScope2
+
+  21  Switch : SwitchHead OpenScope SwitchBody
+
+  22  SwitchHead : T_SWITCH OpenParan Expression CloseParan
+
+  23  SwitchBody : CaseHead Scope3 SwitchBody
+  24             | CaseHead OpenScope Scope3 CloseScope SwitchBody
+  25             | DefaultHead Scope3 CloseScope
+  26             | DefaultHead OpenScope Scope3 CloseScope CloseScope
+  27             | CloseScope
+
+  28  CaseHead : Case Expression Colon
+
+  29  DefaultHead : default Colon
+
+  30  WhileHead : T_WHILE OpenParan Expression CloseParan
+
+  31  VariableDefine : T_TYPE_NAME Ids SemiColon
+  32                 | T_TINT Ids SemiColon
+
+  33  Ids : Id Comma Ids
+  34      | Id
+  35      | Id AssignInOp Expression
+  36      | Id AssignInOp Expression Comma Ids
+
+  37  Expression4 : Unary
+  38              | Expression2 Expression4
+  39              | Operand
+  40              | OpenParan Expression4 CloseParan
+
+  41  Expression : Assign
+  42             | Expression4
+
+  43  Expression2 : Operand Operator
+  44              | Unary Operator
+
+  45  Unary : Id UnaryOp
+  46        | UnaryOp Id
+  47        | BinaryFOp Id
+  48        | BinaryFOp Number
+
+  49  Expression3 : Expression SemiColon
+
+  50  Assign : Id Assign2 Assign
+  51         | Id Assign2 Expression4
+
+  52  Assign2 : AssignInOp
+  53          | AssignOp
+
+  54  Operator : T_LOGICAL_OPERATOR
+  55           | T_RELATIONAL_OPERATOR
+  56           | T_S_BINARY_OPERATOR
+  57           | T_F_BINARY_OPERATOR
+
+  58  Operand : Value
+  59          | Id
+
+  60  Value : Number
+  61        | T_CHARACTER
+
+  62  Number : T_INT
+  63         | T_FLOAT
+
+  64  IOStatement : T_PRINT OpenParan PrintBody Comma PrintInsider CloseParan SemiColon
+  65              | T_PRINT OpenParan T_STRING CloseParan SemiColon
+
+  66  PrintInsider : PrintInsider Comma Expression
+  67               | Expression
+
+  68  PrintBody : T_PRINT_BODY
+
+  69  Id : T_IDENTIFIER
+
+  70  OpenParan : T_OPEN_PARAN
+
+  71  CloseParan : T_CLOSE_PARAN
+
+  72  AssignInOp : T_ASSIGN_INITIALIZE
+
+  73  AssignOp : T_ASSIGN_OPERATOR
+
+  74  SemiColon : T_SEMI_COLON
+
+  75  Colon : T_COLON
+
+  76  Comma : T_COMMA
+
+  77  OpenScope : T_OPEN_SCOPE
+
+  78  CloseScope : T_CLOSE_SCOPE
+
+  79  UnaryOp : T_UNARY_OPERATOR
+
+  80  BinaryFOp : T_F_BINARY_OPERATOR
+
+  81  Case : T_CASE
+
+  82  default : T_DEFAULT
+
+state 0
+	$accept : . Go $end  (0)
+
+	T_PACKAGE  shift 1
+	.  error
+
+	Go  goto 2
+
+
+state 1
+	Go : T_PACKAGE . T_MAIN Import  (1)
+
+	T_MAIN  shift 3
+	.  error
+
+
+state 2
+	$accept : Go . $end  (0)
+
+	$end  accept
+
+
+state 3
+	Go : T_PACKAGE T_MAIN . Import  (1)
+
+	T_TINT  shift 4
+	.  error
+
+	Import  goto 5
+	Main  goto 6
+
+
+state 4
+	Main : T_TINT . T_MAIN OpenParan CloseParan OpenScope Scope CloseScope  (3)
+
+	T_MAIN  shift 7
+	.  error
+
+
+state 5
+	Go : T_PACKAGE T_MAIN Import .  (1)
+
+	.  reduce 1
+
+
+state 6
+	Import : Main .  (2)
+
+	.  reduce 2
+
+
+state 7
+	Main : T_TINT T_MAIN . OpenParan CloseParan OpenScope Scope CloseScope  (3)
+
+	T_OPEN_PARAN  shift 8
+	.  error
+
+	OpenParan  goto 9
+
+
+state 8
+	OpenParan : T_OPEN_PARAN .  (70)
+
+	.  reduce 70
+
+
+state 9
+	Main : T_TINT T_MAIN OpenParan . CloseParan OpenScope Scope CloseScope  (3)
+
+	T_CLOSE_PARAN  shift 10
+	.  error
+
+	CloseParan  goto 11
+
+
+state 10
+	CloseParan : T_CLOSE_PARAN .  (71)
+
+	.  reduce 71
+
+
+state 11
+	Main : T_TINT T_MAIN OpenParan CloseParan . OpenScope Scope CloseScope  (3)
+
+	T_OPEN_SCOPE  shift 12
+	.  error
+
+	OpenScope  goto 13
+
+
+state 12
+	OpenScope : T_OPEN_SCOPE .  (77)
+
+	.  reduce 77
+
+
+state 13
+	Main : T_TINT T_MAIN OpenParan CloseParan OpenScope . Scope CloseScope  (3)
+	Scope : .  (12)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_RETURN  shift 22
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	T_CLOSE_SCOPE  reduce 12
+
+	BasicScope  goto 27
+	Scope  goto 28
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 14
+	Number : T_INT .  (62)
+
+	.  reduce 62
+
+
+state 15
+	Number : T_FLOAT .  (63)
+
+	.  reduce 63
+
+
+state 16
+	BinaryFOp : T_F_BINARY_OPERATOR .  (80)
+
+	.  reduce 80
+
+
+state 17
+	UnaryOp : T_UNARY_OPERATOR .  (79)
+
+	.  reduce 79
+
+
+state 18
+	SemiColon : T_SEMI_COLON .  (74)
+
+	.  reduce 74
+
+
+state 19
+	Id : T_IDENTIFIER .  (69)
+
+	.  reduce 69
+
+
+state 20
+	WhileHead : T_WHILE . OpenParan Expression CloseParan  (30)
+
+	T_OPEN_PARAN  shift 8
+	.  error
+
+	OpenParan  goto 49
+
+
+state 21
+	SwitchHead : T_SWITCH . OpenParan Expression CloseParan  (22)
+
+	T_OPEN_PARAN  shift 8
+	.  error
+
+	OpenParan  goto 50
+
+
+state 22
+	Scope : T_RETURN . Expression3  (11)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression  goto 30
+	Expression4  goto 32
+	OpenParan  goto 37
+	Expression3  goto 51
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 23
+	Value : T_CHARACTER .  (61)
+
+	.  reduce 61
+
+
+state 24
+	IOStatement : T_PRINT . OpenParan PrintBody Comma PrintInsider CloseParan SemiColon  (64)
+	IOStatement : T_PRINT . OpenParan T_STRING CloseParan SemiColon  (65)
+
+	T_OPEN_PARAN  shift 8
+	.  error
+
+	OpenParan  goto 52
+
+
+state 25
+	VariableDefine : T_TYPE_NAME . Ids SemiColon  (31)
+
+	T_IDENTIFIER  shift 19
+	.  error
+
+	Ids  goto 53
+	Id  goto 54
+
+
+state 26
+	VariableDefine : T_TINT . Ids SemiColon  (32)
+
+	T_IDENTIFIER  shift 19
+	.  error
+
+	Ids  goto 55
+	Id  goto 54
+
+
+state 27
+	Scope : BasicScope . Scope  (10)
+	Scope : .  (12)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_RETURN  shift 22
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	T_CLOSE_SCOPE  reduce 12
+
+	BasicScope  goto 27
+	Scope  goto 56
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 28
+	Main : T_TINT T_MAIN OpenParan CloseParan OpenScope Scope . CloseScope  (3)
+
+	T_CLOSE_SCOPE  shift 57
+	.  error
+
+	CloseScope  goto 58
+
+
+state 29
+	BasicScope : VariableDefine .  (4)
+
+	.  reduce 4
+
+
+state 30
+	Expression3 : Expression . SemiColon  (49)
+
+	T_SEMI_COLON  shift 18
+	.  error
+
+	SemiColon  goto 59
+
+
+state 31
+	BasicScope : IOStatement .  (6)
+
+	.  reduce 6
+
+
+state 32
+	Expression : Expression4 .  (42)
+
+	.  reduce 42
+
+
+state 33
+	BasicScope : While .  (7)
+
+	.  reduce 7
+
+
+state 34
+	While : WhileHead . OpenScope Scope3 CloseScope  (19)
+	While : WhileHead . LoopScope2  (20)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_OPEN_SCOPE  shift 12
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 63
+	LoopScope2  goto 64
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenScope  goto 65
+	OpenParan  goto 37
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 35
+	BasicScope : Switch .  (8)
+
+	.  reduce 8
+
+
+state 36
+	Switch : SwitchHead . OpenScope SwitchBody  (21)
+
+	T_OPEN_SCOPE  shift 12
+	.  error
+
+	OpenScope  goto 66
+
+
+state 37
+	Expression4 : OpenParan . Expression4 CloseParan  (40)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression4  goto 67
+	OpenParan  goto 37
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 68
+
+
+state 38
+	BasicScope : Expression3 .  (5)
+
+	.  reduce 5
+
+
+state 39
+	Unary : BinaryFOp . Id  (47)
+	Unary : BinaryFOp . Number  (48)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_IDENTIFIER  shift 19
+	.  error
+
+	Number  goto 69
+	Id  goto 70
+
+
+state 40
+	BasicScope : SemiColon .  (9)
+
+	.  reduce 9
+
+
+state 41
+	Operand : Value .  (58)
+
+	.  reduce 58
+
+
+state 42
+	Value : Number .  (60)
+
+	.  reduce 60
+
+
+state 43
+	Expression4 : Unary .  (37)
+	Expression2 : Unary . Operator  (44)
+
+	T_S_BINARY_OPERATOR  shift 71
+	T_F_BINARY_OPERATOR  shift 72
+	T_RELATIONAL_OPERATOR  shift 73
+	T_LOGICAL_OPERATOR  shift 74
+	T_COLON  reduce 37
+	T_SEMI_COLON  reduce 37
+	T_CLOSE_PARAN  reduce 37
+	T_COMMA  reduce 37
+
+	Operator  goto 75
+
+
+state 44
+	Expression : Assign .  (41)
+
+	.  reduce 41
+
+
+state 45
+	Expression4 : Operand .  (39)
+	Expression2 : Operand . Operator  (43)
+
+	T_S_BINARY_OPERATOR  shift 71
+	T_F_BINARY_OPERATOR  shift 72
+	T_RELATIONAL_OPERATOR  shift 73
+	T_LOGICAL_OPERATOR  shift 74
+	T_COLON  reduce 39
+	T_SEMI_COLON  reduce 39
+	T_CLOSE_PARAN  reduce 39
+	T_COMMA  reduce 39
+
+	Operator  goto 76
+
+
+state 46
+	Unary : UnaryOp . Id  (46)
+
+	T_IDENTIFIER  shift 19
+	.  error
+
+	Id  goto 77
+
+
+state 47
+	Expression4 : Expression2 . Expression4  (38)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression4  goto 78
+	OpenParan  goto 37
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 68
+
+
+state 48
+	Unary : Id . UnaryOp  (45)
+	Assign : Id . Assign2 Assign  (50)
+	Assign : Id . Assign2 Expression4  (51)
+	Operand : Id .  (59)
+
+	T_ASSIGN_OPERATOR  shift 79
+	T_UNARY_OPERATOR  shift 17
+	T_ASSIGN_INITIALIZE  shift 80
+	T_S_BINARY_OPERATOR  reduce 59
+	T_F_BINARY_OPERATOR  reduce 59
+	T_RELATIONAL_OPERATOR  reduce 59
+	T_LOGICAL_OPERATOR  reduce 59
+	T_COLON  reduce 59
+	T_SEMI_COLON  reduce 59
+	T_CLOSE_PARAN  reduce 59
+	T_COMMA  reduce 59
+
+	AssignOp  goto 81
+	AssignInOp  goto 82
+	Assign2  goto 83
+	UnaryOp  goto 84
+
+
+state 49
+	WhileHead : T_WHILE OpenParan . Expression CloseParan  (30)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression  goto 85
+	Expression4  goto 32
+	OpenParan  goto 37
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 50
+	SwitchHead : T_SWITCH OpenParan . Expression CloseParan  (22)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression  goto 86
+	Expression4  goto 32
+	OpenParan  goto 37
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 51
+	Scope : T_RETURN Expression3 .  (11)
+
+	.  reduce 11
+
+
+state 52
+	IOStatement : T_PRINT OpenParan . PrintBody Comma PrintInsider CloseParan SemiColon  (64)
+	IOStatement : T_PRINT OpenParan . T_STRING CloseParan SemiColon  (65)
+
+	T_STRING  shift 87
+	T_PRINT_BODY  shift 88
+	.  error
+
+	PrintBody  goto 89
+
+
+state 53
+	VariableDefine : T_TYPE_NAME Ids . SemiColon  (31)
+
+	T_SEMI_COLON  shift 18
+	.  error
+
+	SemiColon  goto 90
+
+
+state 54
+	Ids : Id . Comma Ids  (33)
+	Ids : Id .  (34)
+	Ids : Id . AssignInOp Expression  (35)
+	Ids : Id . AssignInOp Expression Comma Ids  (36)
+
+	T_ASSIGN_INITIALIZE  shift 80
+	T_COMMA  shift 91
+	T_SEMI_COLON  reduce 34
+
+	AssignInOp  goto 92
+	Comma  goto 93
+
+
+state 55
+	VariableDefine : T_TINT Ids . SemiColon  (32)
+
+	T_SEMI_COLON  shift 18
+	.  error
+
+	SemiColon  goto 94
+
+
+state 56
+	Scope : BasicScope Scope .  (10)
+
+	.  reduce 10
+
+
+state 57
+	CloseScope : T_CLOSE_SCOPE .  (78)
+
+	.  reduce 78
+
+
+state 58
+	Main : T_TINT T_MAIN OpenParan CloseParan OpenScope Scope CloseScope .  (3)
+
+	.  reduce 3
+
+
+state 59
+	Expression3 : Expression SemiColon .  (49)
+
+	.  reduce 49
+
+
+state 60
+	Scope2 : T_BREAK . SemiColon  (14)
+
+	T_SEMI_COLON  shift 18
+	.  error
+
+	SemiColon  goto 95
+
+
+state 61
+	Scope2 : T_CONTINUE . SemiColon  (15)
+
+	T_SEMI_COLON  shift 18
+	.  error
+
+	SemiColon  goto 96
+
+
+state 62
+	Scope2 : BasicScope .  (13)
+
+	.  reduce 13
+
+
+state 63
+	LoopScope2 : Scope2 .  (18)
+
+	.  reduce 18
+
+
+state 64
+	While : WhileHead LoopScope2 .  (20)
+
+	.  reduce 20
+
+
+state 65
+	While : WhileHead OpenScope . Scope3 CloseScope  (19)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 97
+	Scope3  goto 98
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 66
+	Switch : SwitchHead OpenScope . SwitchBody  (21)
+
+	T_CLOSE_SCOPE  shift 57
+	T_CASE  shift 99
+	T_DEFAULT  shift 100
+	.  error
+
+	SwitchBody  goto 101
+	CaseHead  goto 102
+	DefaultHead  goto 103
+	CloseScope  goto 104
+	Case  goto 105
+	default  goto 106
+
+
+state 67
+	Expression4 : OpenParan Expression4 . CloseParan  (40)
+
+	T_CLOSE_PARAN  shift 10
+	.  error
+
+	CloseParan  goto 107
+
+
+state 68
+	Unary : Id . UnaryOp  (45)
+	Operand : Id .  (59)
+
+	T_UNARY_OPERATOR  shift 17
+	T_S_BINARY_OPERATOR  reduce 59
+	T_F_BINARY_OPERATOR  reduce 59
+	T_RELATIONAL_OPERATOR  reduce 59
+	T_LOGICAL_OPERATOR  reduce 59
+	T_COLON  reduce 59
+	T_SEMI_COLON  reduce 59
+	T_CLOSE_PARAN  reduce 59
+	T_COMMA  reduce 59
+
+	UnaryOp  goto 84
+
+
+state 69
+	Unary : BinaryFOp Number .  (48)
+
+	.  reduce 48
+
+
+state 70
+	Unary : BinaryFOp Id .  (47)
+
+	.  reduce 47
+
+
+state 71
+	Operator : T_S_BINARY_OPERATOR .  (56)
+
+	.  reduce 56
+
+
+state 72
+	Operator : T_F_BINARY_OPERATOR .  (57)
+
+	.  reduce 57
+
+
+state 73
+	Operator : T_RELATIONAL_OPERATOR .  (55)
+
+	.  reduce 55
+
+
+state 74
+	Operator : T_LOGICAL_OPERATOR .  (54)
+
+	.  reduce 54
+
+
+state 75
+	Expression2 : Unary Operator .  (44)
+
+	.  reduce 44
+
+
+state 76
+	Expression2 : Operand Operator .  (43)
+
+	.  reduce 43
+
+
+state 77
+	Unary : UnaryOp Id .  (46)
+
+	.  reduce 46
+
+
+state 78
+	Expression4 : Expression2 Expression4 .  (38)
+
+	.  reduce 38
+
+
+state 79
+	AssignOp : T_ASSIGN_OPERATOR .  (73)
+
+	.  reduce 73
+
+
+state 80
+	AssignInOp : T_ASSIGN_INITIALIZE .  (72)
+
+	.  reduce 72
+
+
+state 81
+	Assign2 : AssignOp .  (53)
+
+	.  reduce 53
+
+
+state 82
+	Assign2 : AssignInOp .  (52)
+
+	.  reduce 52
+
+
+state 83
+	Assign : Id Assign2 . Assign  (50)
+	Assign : Id Assign2 . Expression4  (51)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression4  goto 108
+	OpenParan  goto 37
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 109
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 84
+	Unary : Id UnaryOp .  (45)
+
+	.  reduce 45
+
+
+state 85
+	WhileHead : T_WHILE OpenParan Expression . CloseParan  (30)
+
+	T_CLOSE_PARAN  shift 10
+	.  error
+
+	CloseParan  goto 110
+
+
+state 86
+	SwitchHead : T_SWITCH OpenParan Expression . CloseParan  (22)
+
+	T_CLOSE_PARAN  shift 10
+	.  error
+
+	CloseParan  goto 111
+
+
+state 87
+	IOStatement : T_PRINT OpenParan T_STRING . CloseParan SemiColon  (65)
+
+	T_CLOSE_PARAN  shift 10
+	.  error
+
+	CloseParan  goto 112
+
+
+state 88
+	PrintBody : T_PRINT_BODY .  (68)
+
+	.  reduce 68
+
+
+state 89
+	IOStatement : T_PRINT OpenParan PrintBody . Comma PrintInsider CloseParan SemiColon  (64)
+
+	T_COMMA  shift 91
+	.  error
+
+	Comma  goto 113
+
+
+state 90
+	VariableDefine : T_TYPE_NAME Ids SemiColon .  (31)
+
+	.  reduce 31
+
+
+state 91
+	Comma : T_COMMA .  (76)
+
+	.  reduce 76
+
+
+state 92
+	Ids : Id AssignInOp . Expression  (35)
+	Ids : Id AssignInOp . Expression Comma Ids  (36)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression  goto 114
+	Expression4  goto 32
+	OpenParan  goto 37
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 93
+	Ids : Id Comma . Ids  (33)
+
+	T_IDENTIFIER  shift 19
+	.  error
+
+	Ids  goto 115
+	Id  goto 54
+
+
+state 94
+	VariableDefine : T_TINT Ids SemiColon .  (32)
+
+	.  reduce 32
+
+
+state 95
+	Scope2 : T_BREAK SemiColon .  (14)
+
+	.  reduce 14
+
+
+state 96
+	Scope2 : T_CONTINUE SemiColon .  (15)
+
+	.  reduce 15
+
+
+state 97
+	Scope3 : Scope2 .  (17)
+
+	.  reduce 17
+
+
+state 98
+	Scope3 : Scope3 . Scope2  (16)
+	While : WhileHead OpenScope Scope3 . CloseScope  (19)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_CLOSE_SCOPE  shift 57
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 116
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	CloseScope  goto 117
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 99
+	Case : T_CASE .  (81)
+
+	.  reduce 81
+
+
+state 100
+	default : T_DEFAULT .  (82)
+
+	.  reduce 82
+
+
+state 101
+	Switch : SwitchHead OpenScope SwitchBody .  (21)
+
+	.  reduce 21
+
+
+state 102
+	SwitchBody : CaseHead . Scope3 SwitchBody  (23)
+	SwitchBody : CaseHead . OpenScope Scope3 CloseScope SwitchBody  (24)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_OPEN_SCOPE  shift 12
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 97
+	Scope3  goto 118
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenScope  goto 119
+	OpenParan  goto 37
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 103
+	SwitchBody : DefaultHead . Scope3 CloseScope  (25)
+	SwitchBody : DefaultHead . OpenScope Scope3 CloseScope CloseScope  (26)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_OPEN_SCOPE  shift 12
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 97
+	Scope3  goto 120
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenScope  goto 121
+	OpenParan  goto 37
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 104
+	SwitchBody : CloseScope .  (27)
+
+	.  reduce 27
+
+
+state 105
+	CaseHead : Case . Expression Colon  (28)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression  goto 122
+	Expression4  goto 32
+	OpenParan  goto 37
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 106
+	DefaultHead : default . Colon  (29)
+
+	T_COLON  shift 123
+	.  error
+
+	Colon  goto 124
+
+
+state 107
+	Expression4 : OpenParan Expression4 CloseParan .  (40)
+
+	.  reduce 40
+
+
+state 108
+	Assign : Id Assign2 Expression4 .  (51)
+
+	.  reduce 51
+
+
+state 109
+	Assign : Id Assign2 Assign .  (50)
+
+	.  reduce 50
+
+
+state 110
+	WhileHead : T_WHILE OpenParan Expression CloseParan .  (30)
+
+	.  reduce 30
+
+
+state 111
+	SwitchHead : T_SWITCH OpenParan Expression CloseParan .  (22)
+
+	.  reduce 22
+
+
+state 112
+	IOStatement : T_PRINT OpenParan T_STRING CloseParan . SemiColon  (65)
+
+	T_SEMI_COLON  shift 18
+	.  error
+
+	SemiColon  goto 125
+
+
+state 113
+	IOStatement : T_PRINT OpenParan PrintBody Comma . PrintInsider CloseParan SemiColon  (64)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression  goto 126
+	Expression4  goto 32
+	OpenParan  goto 37
+	PrintInsider  goto 127
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 114
+	Ids : Id AssignInOp Expression .  (35)
+	Ids : Id AssignInOp Expression . Comma Ids  (36)
+
+	T_COMMA  shift 91
+	T_SEMI_COLON  reduce 35
+
+	Comma  goto 128
+
+
+state 115
+	Ids : Id Comma Ids .  (33)
+
+	.  reduce 33
+
+
+state 116
+	Scope3 : Scope3 Scope2 .  (16)
+
+	.  reduce 16
+
+
+state 117
+	While : WhileHead OpenScope Scope3 CloseScope .  (19)
+
+	.  reduce 19
+
+
+state 118
+	Scope3 : Scope3 . Scope2  (16)
+	SwitchBody : CaseHead Scope3 . SwitchBody  (23)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_CLOSE_SCOPE  shift 57
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_CASE  shift 99
+	T_DEFAULT  shift 100
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 116
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchBody  goto 129
+	SwitchHead  goto 36
+	CaseHead  goto 102
+	DefaultHead  goto 103
+	OpenParan  goto 37
+	CloseScope  goto 104
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Case  goto 105
+	default  goto 106
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 119
+	SwitchBody : CaseHead OpenScope . Scope3 CloseScope SwitchBody  (24)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 97
+	Scope3  goto 130
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 120
+	Scope3 : Scope3 . Scope2  (16)
+	SwitchBody : DefaultHead Scope3 . CloseScope  (25)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_CLOSE_SCOPE  shift 57
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 116
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	CloseScope  goto 131
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 121
+	SwitchBody : DefaultHead OpenScope . Scope3 CloseScope CloseScope  (26)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 97
+	Scope3  goto 132
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 122
+	CaseHead : Case Expression . Colon  (28)
+
+	T_COLON  shift 123
+	.  error
+
+	Colon  goto 133
+
+
+state 123
+	Colon : T_COLON .  (75)
+
+	.  reduce 75
+
+
+state 124
+	DefaultHead : default Colon .  (29)
+
+	.  reduce 29
+
+
+state 125
+	IOStatement : T_PRINT OpenParan T_STRING CloseParan SemiColon .  (65)
+
+	.  reduce 65
+
+
+state 126
+	PrintInsider : Expression .  (67)
+
+	.  reduce 67
+
+
+state 127
+	IOStatement : T_PRINT OpenParan PrintBody Comma PrintInsider . CloseParan SemiColon  (64)
+	PrintInsider : PrintInsider . Comma Expression  (66)
+
+	T_CLOSE_PARAN  shift 10
+	T_COMMA  shift 91
+	.  error
+
+	CloseParan  goto 134
+	Comma  goto 135
+
+
+state 128
+	Ids : Id AssignInOp Expression Comma . Ids  (36)
+
+	T_IDENTIFIER  shift 19
+	.  error
+
+	Ids  goto 136
+	Id  goto 54
+
+
+state 129
+	SwitchBody : CaseHead Scope3 SwitchBody .  (23)
+
+	.  reduce 23
+
+
+state 130
+	Scope3 : Scope3 . Scope2  (16)
+	SwitchBody : CaseHead OpenScope Scope3 . CloseScope SwitchBody  (24)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_CLOSE_SCOPE  shift 57
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 116
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	CloseScope  goto 137
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 131
+	SwitchBody : DefaultHead Scope3 CloseScope .  (25)
+
+	.  reduce 25
+
+
+state 132
+	Scope3 : Scope3 . Scope2  (16)
+	SwitchBody : DefaultHead OpenScope Scope3 . CloseScope CloseScope  (26)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_SEMI_COLON  shift 18
+	T_OPEN_PARAN  shift 8
+	T_CLOSE_SCOPE  shift 57
+	T_IDENTIFIER  shift 19
+	T_WHILE  shift 20
+	T_SWITCH  shift 21
+	T_BREAK  shift 60
+	T_CHARACTER  shift 23
+	T_PRINT  shift 24
+	T_CONTINUE  shift 61
+	T_TYPE_NAME  shift 25
+	T_TINT  shift 26
+	.  error
+
+	BasicScope  goto 62
+	VariableDefine  goto 29
+	Expression  goto 30
+	IOStatement  goto 31
+	Scope2  goto 116
+	Expression4  goto 32
+	While  goto 33
+	WhileHead  goto 34
+	Switch  goto 35
+	SwitchHead  goto 36
+	OpenParan  goto 37
+	CloseScope  goto 138
+	Expression3  goto 38
+	BinaryFOp  goto 39
+	SemiColon  goto 40
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 133
+	CaseHead : Case Expression Colon .  (28)
+
+	.  reduce 28
+
+
+state 134
+	IOStatement : T_PRINT OpenParan PrintBody Comma PrintInsider CloseParan . SemiColon  (64)
+
+	T_SEMI_COLON  shift 18
+	.  error
+
+	SemiColon  goto 139
+
+
+state 135
+	PrintInsider : PrintInsider Comma . Expression  (66)
+
+	T_INT  shift 14
+	T_FLOAT  shift 15
+	T_F_BINARY_OPERATOR  shift 16
+	T_UNARY_OPERATOR  shift 17
+	T_OPEN_PARAN  shift 8
+	T_IDENTIFIER  shift 19
+	T_CHARACTER  shift 23
+	.  error
+
+	Expression  goto 140
+	Expression4  goto 32
+	OpenParan  goto 37
+	BinaryFOp  goto 39
+	Value  goto 41
+	Number  goto 42
+	Unary  goto 43
+	Assign  goto 44
+	Operand  goto 45
+	UnaryOp  goto 46
+	Expression2  goto 47
+	Id  goto 48
+
+
+state 136
+	Ids : Id AssignInOp Expression Comma Ids .  (36)
+
+	.  reduce 36
+
+
+state 137
+	SwitchBody : CaseHead OpenScope Scope3 CloseScope . SwitchBody  (24)
+
+	T_CLOSE_SCOPE  shift 57
+	T_CASE  shift 99
+	T_DEFAULT  shift 100
+	.  error
+
+	SwitchBody  goto 141
+	CaseHead  goto 102
+	DefaultHead  goto 103
+	CloseScope  goto 104
+	Case  goto 105
+	default  goto 106
+
+
+state 138
+	SwitchBody : DefaultHead OpenScope Scope3 CloseScope . CloseScope  (26)
+
+	T_CLOSE_SCOPE  shift 57
+	.  error
+
+	CloseScope  goto 142
+
+
+state 139
+	IOStatement : T_PRINT OpenParan PrintBody Comma PrintInsider CloseParan SemiColon .  (64)
+
+	.  reduce 64
+
+
+state 140
+	PrintInsider : PrintInsider Comma Expression .  (66)
+
+	.  reduce 66
+
+
+state 141
+	SwitchBody : CaseHead OpenScope Scope3 CloseScope SwitchBody .  (24)
+
+	.  reduce 24
+
+
+state 142
+	SwitchBody : DefaultHead OpenScope Scope3 CloseScope CloseScope .  (26)
+
+	.  reduce 26
+
+
+35 terminals, 46 nonterminals
+83 grammar rules, 143 states
