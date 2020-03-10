@@ -89,69 +89,70 @@ printBody “%d”|“%ld”|“%lld”|“%f”|“%lf”|“%s”|“%c”|“
 
 
 
-"int"	{yylval.str = strdup(yytext) ;return T_TINT;}
-"double"|"long"|"long long"|"float"|"char"|"long int"|"long long int"|"long float" {yylval.str = strdup(yytext) ;return T_TYPE_NAME;}
-func {yylval.str = strdup(yytext) ;return T_FUNC;}
-package {yylval.str = strdup(yytext) ;return T_PACKAGE;}
-for	{yylval.str = strdup(yytext) ;return T_WHILE;}
-switch	{yylval.str = strdup(yytext) ;return T_SWITCH;}
-case	{yylval.str = strdup(yytext) ;return T_CASE;}
-default	{yylval.str = strdup(yytext) ;return T_DEFAULT;}
-"return" {yylval.str = strdup(yytext) ;return T_RETURN;}
-break {yylval.str = strdup(yytext) ;return T_BREAK;}
-fmt\.[P|p]rint {yylval.str = strdup(yytext) ;return T_PRINT;}
-fmt\.[P|p]rintln {yylval.str = strdup(yytext) ;return T_PRINT;}
-continue {yylval.str = strdup(yytext) ;return T_CONTINUE;}
-import {yylval.str = strdup(yytext) ;return T_IMPORT;}
+"int"	{addLexeme("KEY_WRD",yytext); yylval.str = strdup(yytext) ;return T_TINT;}
+"double"|"long"|"long long"|"float"|"char"|"long int"|"long long int"|"long float" {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_TYPE_NAME;}
+func {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_FUNC;}
+package {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_PACKAGE;}
+for	{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_WHILE;}
+switch	{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_SWITCH;}
+case	{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_CASE;}
+default	{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_DEFAULT;}
+"return" {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_RETURN;}
+break {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_BREAK;}
+fmt\.[P|p]rint {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_PRINT;}
+fmt\.[P|p]rintln {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_PRINT;}
+continue {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_CONTINUE;}
+import {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_IMPORT;}
 
 
-main {yylval.str = strdup(yytext) ;return T_MAIN;}
+main {addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_MAIN;}
 
 
-none  {fromLex=0;yyerror("ERROR: `none` super word");}
+none  {addLexeme("KEY_WRD",yytext);fromLex=0;yyerror("ERROR: `none` super word");}
 
 
 [0-9][a-zA-Z_]+	{strcpy(lexChar,yytext);fromLex=0;yyerror("ERROR: Ivalid Identifier ");}
 
 
-[a-zA-Z_][a-zA-Z_0-9]*	{yylval.str = strdup(yytext) ;return T_IDENTIFIER;}
+[a-zA-Z_][a-zA-Z_0-9]*	{addLexeme("ID",yytext);yylval.str = strdup(yytext) ;return T_IDENTIFIER;}
 
-"{"	{yylval.str = strdup(yytext); scope_nn++; return T_OPEN_SCOPE;}
+"{"	{addLexeme("OPN_BRA",yytext);yylval.str = strdup(yytext); scope_nn++; return T_OPEN_SCOPE;}
 
-"}"	{yylval.str = strdup(yytext) ;return T_CLOSE_SCOPE;}
+"}"	{addLexeme("CLO_BRA",yytext);yylval.str = strdup(yytext) ;return T_CLOSE_SCOPE;}
 
-"("	{yylval.str = strdup(yytext) ;return T_OPEN_PARAN;}
+"("	{addLexeme("OPN_PARAM",yytext);yylval.str = strdup(yytext) ;return T_OPEN_PARAN;}
 
-")"	{yylval.str = strdup(yytext) ;return T_CLOSE_PARAN;}
+")"	{addLexeme("CLO_PARAM",yytext);yylval.str = strdup(yytext) ;return T_CLOSE_PARAN;}
 
-";"	{yylval.str = strdup(yytext) ;return T_SEMI_COLON;}
+";"	{addLexeme("SEMI_COLON",yytext);yylval.str = strdup(yytext) ;return T_SEMI_COLON;}
 
-":" {yylval.str = strdup(yytext) ;return T_COLON;}
+":" {addLexeme("COLON",yytext);yylval.str = strdup(yytext) ;return T_COLON;}
 
-"!"|"&&"|"||" {yylval.str = strdup(yytext) ;return T_LOGICAL_OPERATOR;}
+"!"|"&&"|"||" {addLexeme("LOG_OP",yytext);yylval.str = strdup(yytext) ;return T_LOGICAL_OPERATOR;}
 
-"<"|">"|"=="|"!="|">="|"<=" {yylval.str = strdup(yytext) ;return T_RELATIONAL_OPERATOR;}
+"<"|">"|"=="|"!="|">="|"<=" {addLexeme("REL_OP",yytext);yylval.str = strdup(yytext) ;return T_RELATIONAL_OPERATOR;}
 
-"++"|"--" {yylval.str = strdup(yytext) ;return T_UNARY_OPERATOR;}
+"++"|"--" {addLexeme("UNARU_OP",yytext);yylval.str = strdup(yytext) ;return T_UNARY_OPERATOR;}
 
-":="	{yylval.str = strdup(yytext) ;return T_ASSIGN_INITIALIZE;}
-"+="|"-="|"*="|"/="|"%=" {yylval.str = strdup(yytext) ;return T_ASSIGN_OPERATOR;}
+":="	{addLexeme("ASSG",yytext);yylval.str = strdup(yytext) ;return T_ASSIGN_INITIALIZE;}
+"+="|"-="|"*="|"/="|"%=" {addLexeme("ASSG",yytext);yylval.str = strdup(yytext) ;return T_ASSIGN_OPERATOR;}
 
-"+"|"-" {yylval.str = strdup(yytext) ;return T_F_BINARY_OPERATOR;}
-"/"|"*"|"%" {yylval.str = strdup(yytext) ;return  T_S_BINARY_OPERATOR;}
+"+"|"-" {addLexeme("ARTHM",yytext);yylval.str = strdup(yytext) ;return T_F_BINARY_OPERATOR;}
+"/"|"*"|"%" {addLexeme("ARTHM",yytext);yylval.str = strdup(yytext) ;return  T_S_BINARY_OPERATOR;}
 
 
-[0-9]+\.[0-9]+ {yylval.str = strdup(yytext) ;return T_FLOAT;}
+[0-9]+\.[0-9]+ {addLexeme("FLOAT",yytext);yylval.str = strdup(yytext) ;return T_FLOAT;}
 
-[0-9]+	{yylval.str = strdup(yytext) ;return T_INT;}
+[0-9]+	{addLexeme("NUM",yytext);yylval.str = strdup(yytext) ;return T_INT;}
 
-"," {yylval.str = strdup(yytext) ;return T_COMMA;}
+"," {addLexeme("COMMA",yytext);yylval.str = strdup(yytext) ;return T_COMMA;}
 
 \t|" "	{}
 
 
 
-. {fromLex=0;yyerror("Invalid Syntax Panic BOis;\n");}
+. {addLexeme("DOT",yytext);fromLex=0;yyerror("Invalid Syntax Panin Time;\n");}
+
 %%
 
 int yywrap()

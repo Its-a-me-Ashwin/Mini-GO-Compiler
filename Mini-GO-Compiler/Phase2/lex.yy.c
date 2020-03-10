@@ -978,82 +978,82 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 92 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_TINT;}
+{addLexeme("KEY_WRD",yytext); yylval.str = strdup(yytext) ;return T_TINT;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 93 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_TYPE_NAME;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_TYPE_NAME;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 94 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_FUNC;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_FUNC;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 95 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_PACKAGE;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_PACKAGE;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 96 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_WHILE;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_WHILE;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 97 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_SWITCH;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_SWITCH;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 98 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_CASE;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_CASE;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 99 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_DEFAULT;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_DEFAULT;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 100 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_RETURN;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_RETURN;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 101 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_BREAK;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_BREAK;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 102 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_PRINT;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_PRINT;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 103 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_PRINT;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_PRINT;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 104 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_CONTINUE;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_CONTINUE;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 105 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_IMPORT;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_IMPORT;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 108 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_MAIN;}
+{addLexeme("KEY_WRD",yytext);yylval.str = strdup(yytext) ;return T_MAIN;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 111 "lexer.l"
-{fromLex=0;yyerror("ERROR: `none` super word");}
+{addLexeme("KEY_WRD",yytext);fromLex=0;yyerror("ERROR: `none` super word");}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
@@ -1063,87 +1063,87 @@ YY_RULE_SETUP
 case 24:
 YY_RULE_SETUP
 #line 117 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_IDENTIFIER;}
+{addLexeme("ID",yytext);yylval.str = strdup(yytext) ;return T_IDENTIFIER;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 119 "lexer.l"
-{yylval.str = strdup(yytext); scope_nn++; return T_OPEN_SCOPE;}
+{addLexeme("OPN_BRA",yytext);yylval.str = strdup(yytext); scope_nn++; return T_OPEN_SCOPE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 121 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_CLOSE_SCOPE;}
+{addLexeme("CLO_BRA",yytext);yylval.str = strdup(yytext) ;return T_CLOSE_SCOPE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 123 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_OPEN_PARAN;}
+{addLexeme("OPN_PARAM",yytext);yylval.str = strdup(yytext) ;return T_OPEN_PARAN;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 125 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_CLOSE_PARAN;}
+{addLexeme("CLO_PARAM",yytext);yylval.str = strdup(yytext) ;return T_CLOSE_PARAN;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 127 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_SEMI_COLON;}
+{addLexeme("SEMI_COLON",yytext);yylval.str = strdup(yytext) ;return T_SEMI_COLON;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 129 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_COLON;}
+{addLexeme("COLON",yytext);yylval.str = strdup(yytext) ;return T_COLON;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 131 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_LOGICAL_OPERATOR;}
+{addLexeme("LOG_OP",yytext);yylval.str = strdup(yytext) ;return T_LOGICAL_OPERATOR;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 133 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_RELATIONAL_OPERATOR;}
+{addLexeme("REL_OP",yytext);yylval.str = strdup(yytext) ;return T_RELATIONAL_OPERATOR;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 135 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_UNARY_OPERATOR;}
+{addLexeme("UNARU_OP",yytext);yylval.str = strdup(yytext) ;return T_UNARY_OPERATOR;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 137 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_ASSIGN_INITIALIZE;}
+{addLexeme("ASSG",yytext);yylval.str = strdup(yytext) ;return T_ASSIGN_INITIALIZE;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 138 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_ASSIGN_OPERATOR;}
+{addLexeme("ASSG",yytext);yylval.str = strdup(yytext) ;return T_ASSIGN_OPERATOR;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 140 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_F_BINARY_OPERATOR;}
+{addLexeme("ARTHM",yytext);yylval.str = strdup(yytext) ;return T_F_BINARY_OPERATOR;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 141 "lexer.l"
-{yylval.str = strdup(yytext) ;return  T_S_BINARY_OPERATOR;}
+{addLexeme("ARTHM",yytext);yylval.str = strdup(yytext) ;return  T_S_BINARY_OPERATOR;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 144 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_FLOAT;}
+{addLexeme("FLOAT",yytext);yylval.str = strdup(yytext) ;return T_FLOAT;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 146 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_INT;}
+{addLexeme("NUM",yytext);yylval.str = strdup(yytext) ;return T_INT;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 148 "lexer.l"
-{yylval.str = strdup(yytext) ;return T_COMMA;}
+{addLexeme("COMMA",yytext);yylval.str = strdup(yytext) ;return T_COMMA;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
@@ -1153,11 +1153,11 @@ YY_RULE_SETUP
 case 42:
 YY_RULE_SETUP
 #line 154 "lexer.l"
-{fromLex=0;yyerror("Invalid Syntax Panic BOis;\n");}
+{addLexeme("DOT",yytext);fromLex=0;yyerror("Invalid Syntax Panin Time;\n");}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 155 "lexer.l"
+#line 156 "lexer.l"
 ECHO;
 	YY_BREAK
 #line 1164 "lex.yy.c"
@@ -2177,7 +2177,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 155 "lexer.l"
+#line 156 "lexer.l"
 
 
 int yywrap()
