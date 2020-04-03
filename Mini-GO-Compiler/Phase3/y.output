@@ -1,0 +1,2258 @@
+Terminals unused in grammar
+
+   LOL
+
+
+Grammar
+
+    0 $accept: CPro $end
+
+    1 CPro: Main
+    2     | %empty
+
+    3 Main: T_DEF T_MAIN OpenParan CloseParan OpenScope Scope CloseScope
+
+    4 BasicScope: VariableDefine
+    5           | Expression3
+    6           | IOStatement
+    7           | While
+    8           | Switch
+    9           | SemiColon
+
+   10 Scope: BasicScope Scope
+   11      | T_RETURN Expression3
+   12      | OpenScope Scope CloseScope Scope
+   13      | %empty
+
+   14 Scope2: BasicScope
+   15       | T_BREAK SemiColon
+   16       | T_CONTINUE SemiColon
+   17       | T_RETURN Expression3
+
+   18 Scope4: Scope4 Scope2
+   19       | Scope2
+   20       | Scope3
+
+   21 Scope3: OpenScope Scope4 CloseScope
+
+   22 LoopScope2: Scope2
+
+   23 While: WhileHead Scope3
+   24      | WhileHead OpenScope CloseScope
+   25      | WhileHead LoopScope2
+
+   26 Switch: SwitchHead OpenScope SwitchBody
+
+   27 SwitchHead: T_SWITCH OpenParan Expression CloseParan
+
+   28 SwitchBody: CaseHead Scope4 SwitchBody
+   29           | DefaultHead Scope4 CloseScope
+   30           | CloseScope
+
+   31 CaseHead: Case Expression Colon
+
+   32 DefaultHead: default Colon
+
+   33 WhileHead: T_WHILE OpenParan Expression CloseParan
+
+   34 VariableDefine: T_TYPE_NAME Ids SemiColon
+   35               | T_TINT Ids SemiColon
+
+   36 Ids: Id Comma Ids
+   37    | Id
+   38    | Id AssignInOp Expression
+   39    | Id AssignInOp Expression Comma Ids
+
+   40 Expression4: Unary
+   41            | Operation
+   42            | Operand
+   43            | OpenParan Expression4 CloseParan
+   44            | error SemiColon
+
+   45 Expression: Assign
+   46           | Expression4
+
+   47 Operation: Expression4 T_LOGICAL_OPERATOR Expression4
+   48          | Expression4 T_RELATIONAL_OPERATOR Expression4
+   49          | Expression4 T_S_BINARY_OPERATOR Expression4
+   50          | Expression4 T_F_BINARY_OPERATOR Expression4
+
+   51 Unary: Id UnaryOp
+   52      | UnaryOp Id
+   53      | BinaryFOp Id
+   54      | BinaryFOp Number
+
+   55 Expression3: Expression SemiColon
+
+   56 Assign: Id Assign2 Assign
+   57       | Id Assign2 Expression4
+
+   58 Assign2: AssignInOp
+   59        | AssignOp
+
+   60 Operand: Value
+   61        | Id
+
+   62 Value: Number
+   63      | T_CHARACTER
+
+   64 Number: T_INT
+   65       | T_FLOAT
+
+   66 IOStatement: T_PRINT OpenParan PrintBody Comma PrintInsider CloseParan SemiColon
+   67            | T_PRINT OpenParan T_STRING CloseParan SemiColon
+
+   68 PrintInsider: PrintInsider Comma Expression
+   69             | Expression
+
+   70 PrintBody: T_PRINT_BODY
+
+   71 Id: T_IDENTIFIER
+
+   72 OpenParan: T_OPEN_PARAN
+
+   73 CloseParan: T_CLOSE_PARAN
+
+   74 AssignInOp: T_ASSIGN_INITIALIZE
+
+   75 AssignOp: T_ASSIGN_OPERATOR
+
+   76 SemiColon: T_SEMI_COLON
+
+   77 Colon: T_COLON
+
+   78 Comma: T_COMMA
+
+   79 OpenScope: T_OPEN_SCOPE
+
+   80 CloseScope: T_CLOSE_SCOPE
+
+   81 UnaryOp: T_UNARY_OPERATOR
+
+   82 BinaryFOp: T_F_BINARY_OPERATOR
+
+   83 Case: T_CASE
+
+   84 default: T_DEFAULT
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256) 44
+T_INT (258) 64
+T_FLOAT (259) 65
+T_S_BINARY_OPERATOR (260) 49
+T_F_BINARY_OPERATOR (261) 50 82
+T_ASSIGN_OPERATOR (262) 75
+T_UNARY_OPERATOR (263) 81
+T_RELATIONAL_OPERATOR (264) 48
+T_LOGICAL_OPERATOR (265) 47
+T_COLON (266) 77
+T_SEMI_COLON (267) 76
+T_CLOSE_PARAN (268) 73
+T_OPEN_PARAN (269) 72
+T_CLOSE_SCOPE (270) 80
+T_OPEN_SCOPE (271) 79
+T_IDENTIFIER (272) 71
+T_WHILE (273) 33
+T_SWITCH (274) 27
+T_CASE (275) 83
+T_DEFAULT (276) 84
+T_RETURN (277) 11 17
+T_BREAK (278) 15
+T_STRING (279) 67
+T_CHARACTER (280) 63
+T_PRINT (281) 66 67
+T_MAIN (282) 3
+T_DEF (283) 3
+T_CONTINUE (284) 16
+T_TYPE_NAME (285) 34
+T_ASSIGN_INITIALIZE (286) 74
+T_PRINT_BODY (287) 70
+T_COMMA (288) 78
+T_TINT (289) 35
+LOL (290)
+
+
+Nonterminals, with rules where they appear
+
+$accept (36)
+    on left: 0
+CPro (37)
+    on left: 1 2, on right: 0
+Main (38)
+    on left: 3, on right: 1
+BasicScope (39)
+    on left: 4 5 6 7 8 9, on right: 10 14
+Scope (40)
+    on left: 10 11 12 13, on right: 3 10 12
+Scope2 (41)
+    on left: 14 15 16 17, on right: 18 19 22
+Scope4 (42)
+    on left: 18 19 20, on right: 18 21 28 29
+Scope3 (43)
+    on left: 21, on right: 20 23
+LoopScope2 (44)
+    on left: 22, on right: 25
+While (45)
+    on left: 23 24 25, on right: 7
+Switch (46)
+    on left: 26, on right: 8
+SwitchHead (47)
+    on left: 27, on right: 26
+SwitchBody (48)
+    on left: 28 29 30, on right: 26 28
+CaseHead (49)
+    on left: 31, on right: 28
+DefaultHead (50)
+    on left: 32, on right: 29
+WhileHead (51)
+    on left: 33, on right: 23 24 25
+VariableDefine (52)
+    on left: 34 35, on right: 4
+Ids (53)
+    on left: 36 37 38 39, on right: 34 35 36 39
+Expression4 (54)
+    on left: 40 41 42 43 44, on right: 43 46 47 48 49 50 57
+Expression (55)
+    on left: 45 46, on right: 27 31 33 38 39 55 68 69
+Operation (56)
+    on left: 47 48 49 50, on right: 41
+Unary (57)
+    on left: 51 52 53 54, on right: 40
+Expression3 (58)
+    on left: 55, on right: 5 11 17
+Assign (59)
+    on left: 56 57, on right: 45 56
+Assign2 (60)
+    on left: 58 59, on right: 56 57
+Operand (61)
+    on left: 60 61, on right: 42
+Value (62)
+    on left: 62 63, on right: 60
+Number (63)
+    on left: 64 65, on right: 54 62
+IOStatement (64)
+    on left: 66 67, on right: 6
+PrintInsider (65)
+    on left: 68 69, on right: 66 68
+PrintBody (66)
+    on left: 70, on right: 66
+Id (67)
+    on left: 71, on right: 36 37 38 39 51 52 53 56 57 61
+OpenParan (68)
+    on left: 72, on right: 3 27 33 43 66 67
+CloseParan (69)
+    on left: 73, on right: 3 27 33 43 66 67
+AssignInOp (70)
+    on left: 74, on right: 38 39 58
+AssignOp (71)
+    on left: 75, on right: 59
+SemiColon (72)
+    on left: 76, on right: 9 15 16 34 35 44 55 66 67
+Colon (73)
+    on left: 77, on right: 31 32
+Comma (74)
+    on left: 78, on right: 36 39 66 68
+OpenScope (75)
+    on left: 79, on right: 3 12 21 24 26
+CloseScope (76)
+    on left: 80, on right: 3 12 21 24 29 30
+UnaryOp (77)
+    on left: 81, on right: 51 52
+BinaryFOp (78)
+    on left: 82, on right: 53 54
+Case (79)
+    on left: 83, on right: 31
+default (80)
+    on left: 84, on right: 32
+
+
+State 0
+
+    0 $accept: . CPro $end
+
+    T_DEF  shift, and go to state 1
+
+    $default  reduce using rule 2 (CPro)
+
+    CPro  go to state 2
+    Main  go to state 3
+
+
+State 1
+
+    3 Main: T_DEF . T_MAIN OpenParan CloseParan OpenScope Scope CloseScope
+
+    T_MAIN  shift, and go to state 4
+
+
+State 2
+
+    0 $accept: CPro . $end
+
+    $end  shift, and go to state 5
+
+
+State 3
+
+    1 CPro: Main .
+
+    $default  reduce using rule 1 (CPro)
+
+
+State 4
+
+    3 Main: T_DEF T_MAIN . OpenParan CloseParan OpenScope Scope CloseScope
+
+    T_OPEN_PARAN  shift, and go to state 6
+
+    OpenParan  go to state 7
+
+
+State 5
+
+    0 $accept: CPro $end .
+
+    $default  accept
+
+
+State 6
+
+   72 OpenParan: T_OPEN_PARAN .
+
+    $default  reduce using rule 72 (OpenParan)
+
+
+State 7
+
+    3 Main: T_DEF T_MAIN OpenParan . CloseParan OpenScope Scope CloseScope
+
+    T_CLOSE_PARAN  shift, and go to state 8
+
+    CloseParan  go to state 9
+
+
+State 8
+
+   73 CloseParan: T_CLOSE_PARAN .
+
+    $default  reduce using rule 73 (CloseParan)
+
+
+State 9
+
+    3 Main: T_DEF T_MAIN OpenParan CloseParan . OpenScope Scope CloseScope
+
+    T_OPEN_SCOPE  shift, and go to state 10
+
+    OpenScope  go to state 11
+
+
+State 10
+
+   79 OpenScope: T_OPEN_SCOPE .
+
+    $default  reduce using rule 79 (OpenScope)
+
+
+State 11
+
+    3 Main: T_DEF T_MAIN OpenParan CloseParan OpenScope . Scope CloseScope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 21
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    T_CLOSE_SCOPE  reduce using rule 13 (Scope)
+
+    BasicScope      go to state 26
+    Scope           go to state 27
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 46
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 12
+
+   44 Expression4: error . SemiColon
+
+    T_SEMI_COLON  shift, and go to state 17
+
+    SemiColon  go to state 49
+
+
+State 13
+
+   64 Number: T_INT .
+
+    $default  reduce using rule 64 (Number)
+
+
+State 14
+
+   65 Number: T_FLOAT .
+
+    $default  reduce using rule 65 (Number)
+
+
+State 15
+
+   82 BinaryFOp: T_F_BINARY_OPERATOR .
+
+    $default  reduce using rule 82 (BinaryFOp)
+
+
+State 16
+
+   81 UnaryOp: T_UNARY_OPERATOR .
+
+    $default  reduce using rule 81 (UnaryOp)
+
+
+State 17
+
+   76 SemiColon: T_SEMI_COLON .
+
+    $default  reduce using rule 76 (SemiColon)
+
+
+State 18
+
+   71 Id: T_IDENTIFIER .
+
+    $default  reduce using rule 71 (Id)
+
+
+State 19
+
+   33 WhileHead: T_WHILE . OpenParan Expression CloseParan
+
+    T_OPEN_PARAN  shift, and go to state 6
+
+    OpenParan  go to state 50
+
+
+State 20
+
+   27 SwitchHead: T_SWITCH . OpenParan Expression CloseParan
+
+    T_OPEN_PARAN  shift, and go to state 6
+
+    OpenParan  go to state 51
+
+
+State 21
+
+   11 Scope: T_RETURN . Expression3
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 33
+    Expression   go to state 34
+    Operation    go to state 35
+    Unary        go to state 36
+    Expression3  go to state 52
+    Assign       go to state 38
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 43
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 22
+
+   63 Value: T_CHARACTER .
+
+    $default  reduce using rule 63 (Value)
+
+
+State 23
+
+   66 IOStatement: T_PRINT . OpenParan PrintBody Comma PrintInsider CloseParan SemiColon
+   67            | T_PRINT . OpenParan T_STRING CloseParan SemiColon
+
+    T_OPEN_PARAN  shift, and go to state 6
+
+    OpenParan  go to state 53
+
+
+State 24
+
+   34 VariableDefine: T_TYPE_NAME . Ids SemiColon
+
+    T_IDENTIFIER  shift, and go to state 18
+
+    Ids  go to state 54
+    Id   go to state 55
+
+
+State 25
+
+   35 VariableDefine: T_TINT . Ids SemiColon
+
+    T_IDENTIFIER  shift, and go to state 18
+
+    Ids  go to state 56
+    Id   go to state 55
+
+
+State 26
+
+   10 Scope: BasicScope . Scope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 21
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    T_CLOSE_SCOPE  reduce using rule 13 (Scope)
+
+    BasicScope      go to state 26
+    Scope           go to state 57
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 46
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 27
+
+    3 Main: T_DEF T_MAIN OpenParan CloseParan OpenScope Scope . CloseScope
+
+    T_CLOSE_SCOPE  shift, and go to state 58
+
+    CloseScope  go to state 59
+
+
+State 28
+
+    7 BasicScope: While .
+
+    $default  reduce using rule 7 (BasicScope)
+
+
+State 29
+
+    8 BasicScope: Switch .
+
+    $default  reduce using rule 8 (BasicScope)
+
+
+State 30
+
+   26 Switch: SwitchHead . OpenScope SwitchBody
+
+    T_OPEN_SCOPE  shift, and go to state 10
+
+    OpenScope  go to state 60
+
+
+State 31
+
+   23 While: WhileHead . Scope3
+   24      | WhileHead . OpenScope CloseScope
+   25      | WhileHead . LoopScope2
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 61
+    T_BREAK              shift, and go to state 62
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_CONTINUE           shift, and go to state 63
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    BasicScope      go to state 64
+    Scope2          go to state 65
+    Scope3          go to state 66
+    LoopScope2      go to state 67
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 68
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 32
+
+    4 BasicScope: VariableDefine .
+
+    $default  reduce using rule 4 (BasicScope)
+
+
+State 33
+
+   46 Expression: Expression4 .
+   47 Operation: Expression4 . T_LOGICAL_OPERATOR Expression4
+   48          | Expression4 . T_RELATIONAL_OPERATOR Expression4
+   49          | Expression4 . T_S_BINARY_OPERATOR Expression4
+   50          | Expression4 . T_F_BINARY_OPERATOR Expression4
+
+    T_S_BINARY_OPERATOR    shift, and go to state 69
+    T_F_BINARY_OPERATOR    shift, and go to state 70
+    T_RELATIONAL_OPERATOR  shift, and go to state 71
+    T_LOGICAL_OPERATOR     shift, and go to state 72
+
+    $default  reduce using rule 46 (Expression)
+
+
+State 34
+
+   55 Expression3: Expression . SemiColon
+
+    T_SEMI_COLON  shift, and go to state 17
+
+    SemiColon  go to state 73
+
+
+State 35
+
+   41 Expression4: Operation .
+
+    $default  reduce using rule 41 (Expression4)
+
+
+State 36
+
+   40 Expression4: Unary .
+
+    $default  reduce using rule 40 (Expression4)
+
+
+State 37
+
+    5 BasicScope: Expression3 .
+
+    $default  reduce using rule 5 (BasicScope)
+
+
+State 38
+
+   45 Expression: Assign .
+
+    $default  reduce using rule 45 (Expression)
+
+
+State 39
+
+   42 Expression4: Operand .
+
+    $default  reduce using rule 42 (Expression4)
+
+
+State 40
+
+   60 Operand: Value .
+
+    $default  reduce using rule 60 (Operand)
+
+
+State 41
+
+   62 Value: Number .
+
+    $default  reduce using rule 62 (Value)
+
+
+State 42
+
+    6 BasicScope: IOStatement .
+
+    $default  reduce using rule 6 (BasicScope)
+
+
+State 43
+
+   51 Unary: Id . UnaryOp
+   56 Assign: Id . Assign2 Assign
+   57       | Id . Assign2 Expression4
+   61 Operand: Id .
+
+    T_ASSIGN_OPERATOR    shift, and go to state 74
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_ASSIGN_INITIALIZE  shift, and go to state 75
+
+    $default  reduce using rule 61 (Operand)
+
+    Assign2     go to state 76
+    AssignInOp  go to state 77
+    AssignOp    go to state 78
+    UnaryOp     go to state 79
+
+
+State 44
+
+   43 Expression4: OpenParan . Expression4 CloseParan
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 80
+    Operation    go to state 35
+    Unary        go to state 36
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 81
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 45
+
+    9 BasicScope: SemiColon .
+
+    $default  reduce using rule 9 (BasicScope)
+
+
+State 46
+
+   12 Scope: OpenScope . Scope CloseScope Scope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 21
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    T_CLOSE_SCOPE  reduce using rule 13 (Scope)
+
+    BasicScope      go to state 26
+    Scope           go to state 82
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 46
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 47
+
+   52 Unary: UnaryOp . Id
+
+    T_IDENTIFIER  shift, and go to state 18
+
+    Id  go to state 83
+
+
+State 48
+
+   53 Unary: BinaryFOp . Id
+   54      | BinaryFOp . Number
+
+    T_INT         shift, and go to state 13
+    T_FLOAT       shift, and go to state 14
+    T_IDENTIFIER  shift, and go to state 18
+
+    Number  go to state 84
+    Id      go to state 85
+
+
+State 49
+
+   44 Expression4: error SemiColon .
+
+    $default  reduce using rule 44 (Expression4)
+
+
+State 50
+
+   33 WhileHead: T_WHILE OpenParan . Expression CloseParan
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 33
+    Expression   go to state 86
+    Operation    go to state 35
+    Unary        go to state 36
+    Assign       go to state 38
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 43
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 51
+
+   27 SwitchHead: T_SWITCH OpenParan . Expression CloseParan
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 33
+    Expression   go to state 87
+    Operation    go to state 35
+    Unary        go to state 36
+    Assign       go to state 38
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 43
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 52
+
+   11 Scope: T_RETURN Expression3 .
+
+    $default  reduce using rule 11 (Scope)
+
+
+State 53
+
+   66 IOStatement: T_PRINT OpenParan . PrintBody Comma PrintInsider CloseParan SemiColon
+   67            | T_PRINT OpenParan . T_STRING CloseParan SemiColon
+
+    T_STRING      shift, and go to state 88
+    T_PRINT_BODY  shift, and go to state 89
+
+    PrintBody  go to state 90
+
+
+State 54
+
+   34 VariableDefine: T_TYPE_NAME Ids . SemiColon
+
+    T_SEMI_COLON  shift, and go to state 17
+
+    SemiColon  go to state 91
+
+
+State 55
+
+   36 Ids: Id . Comma Ids
+   37    | Id .
+   38    | Id . AssignInOp Expression
+   39    | Id . AssignInOp Expression Comma Ids
+
+    T_ASSIGN_INITIALIZE  shift, and go to state 75
+    T_COMMA              shift, and go to state 92
+
+    $default  reduce using rule 37 (Ids)
+
+    AssignInOp  go to state 93
+    Comma       go to state 94
+
+
+State 56
+
+   35 VariableDefine: T_TINT Ids . SemiColon
+
+    T_SEMI_COLON  shift, and go to state 17
+
+    SemiColon  go to state 95
+
+
+State 57
+
+   10 Scope: BasicScope Scope .
+
+    $default  reduce using rule 10 (Scope)
+
+
+State 58
+
+   80 CloseScope: T_CLOSE_SCOPE .
+
+    $default  reduce using rule 80 (CloseScope)
+
+
+State 59
+
+    3 Main: T_DEF T_MAIN OpenParan CloseParan OpenScope Scope CloseScope .
+
+    $default  reduce using rule 3 (Main)
+
+
+State 60
+
+   26 Switch: SwitchHead OpenScope . SwitchBody
+
+    T_CLOSE_SCOPE  shift, and go to state 58
+    T_CASE         shift, and go to state 96
+    T_DEFAULT      shift, and go to state 97
+
+    SwitchBody   go to state 98
+    CaseHead     go to state 99
+    DefaultHead  go to state 100
+    CloseScope   go to state 101
+    Case         go to state 102
+    default      go to state 103
+
+
+State 61
+
+   17 Scope2: T_RETURN . Expression3
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 33
+    Expression   go to state 34
+    Operation    go to state 35
+    Unary        go to state 36
+    Expression3  go to state 104
+    Assign       go to state 38
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 43
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 62
+
+   15 Scope2: T_BREAK . SemiColon
+
+    T_SEMI_COLON  shift, and go to state 17
+
+    SemiColon  go to state 105
+
+
+State 63
+
+   16 Scope2: T_CONTINUE . SemiColon
+
+    T_SEMI_COLON  shift, and go to state 17
+
+    SemiColon  go to state 106
+
+
+State 64
+
+   14 Scope2: BasicScope .
+
+    $default  reduce using rule 14 (Scope2)
+
+
+State 65
+
+   22 LoopScope2: Scope2 .
+
+    $default  reduce using rule 22 (LoopScope2)
+
+
+State 66
+
+   23 While: WhileHead Scope3 .
+
+    $default  reduce using rule 23 (While)
+
+
+State 67
+
+   25 While: WhileHead LoopScope2 .
+
+    $default  reduce using rule 25 (While)
+
+
+State 68
+
+   21 Scope3: OpenScope . Scope4 CloseScope
+   24 While: WhileHead OpenScope . CloseScope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_CLOSE_SCOPE        shift, and go to state 58
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 61
+    T_BREAK              shift, and go to state 62
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_CONTINUE           shift, and go to state 63
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    BasicScope      go to state 64
+    Scope2          go to state 107
+    Scope4          go to state 108
+    Scope3          go to state 109
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 110
+    CloseScope      go to state 111
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 69
+
+   49 Operation: Expression4 T_S_BINARY_OPERATOR . Expression4
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 112
+    Operation    go to state 35
+    Unary        go to state 36
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 81
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 70
+
+   50 Operation: Expression4 T_F_BINARY_OPERATOR . Expression4
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 113
+    Operation    go to state 35
+    Unary        go to state 36
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 81
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 71
+
+   48 Operation: Expression4 T_RELATIONAL_OPERATOR . Expression4
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 114
+    Operation    go to state 35
+    Unary        go to state 36
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 81
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 72
+
+   47 Operation: Expression4 T_LOGICAL_OPERATOR . Expression4
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 115
+    Operation    go to state 35
+    Unary        go to state 36
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 81
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 73
+
+   55 Expression3: Expression SemiColon .
+
+    $default  reduce using rule 55 (Expression3)
+
+
+State 74
+
+   75 AssignOp: T_ASSIGN_OPERATOR .
+
+    $default  reduce using rule 75 (AssignOp)
+
+
+State 75
+
+   74 AssignInOp: T_ASSIGN_INITIALIZE .
+
+    $default  reduce using rule 74 (AssignInOp)
+
+
+State 76
+
+   56 Assign: Id Assign2 . Assign
+   57       | Id Assign2 . Expression4
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 116
+    Operation    go to state 35
+    Unary        go to state 36
+    Assign       go to state 117
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 43
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 77
+
+   58 Assign2: AssignInOp .
+
+    $default  reduce using rule 58 (Assign2)
+
+
+State 78
+
+   59 Assign2: AssignOp .
+
+    $default  reduce using rule 59 (Assign2)
+
+
+State 79
+
+   51 Unary: Id UnaryOp .
+
+    $default  reduce using rule 51 (Unary)
+
+
+State 80
+
+   43 Expression4: OpenParan Expression4 . CloseParan
+   47 Operation: Expression4 . T_LOGICAL_OPERATOR Expression4
+   48          | Expression4 . T_RELATIONAL_OPERATOR Expression4
+   49          | Expression4 . T_S_BINARY_OPERATOR Expression4
+   50          | Expression4 . T_F_BINARY_OPERATOR Expression4
+
+    T_S_BINARY_OPERATOR    shift, and go to state 69
+    T_F_BINARY_OPERATOR    shift, and go to state 70
+    T_RELATIONAL_OPERATOR  shift, and go to state 71
+    T_LOGICAL_OPERATOR     shift, and go to state 72
+    T_CLOSE_PARAN          shift, and go to state 8
+
+    CloseParan  go to state 118
+
+
+State 81
+
+   51 Unary: Id . UnaryOp
+   61 Operand: Id .
+
+    T_UNARY_OPERATOR  shift, and go to state 16
+
+    $default  reduce using rule 61 (Operand)
+
+    UnaryOp  go to state 79
+
+
+State 82
+
+   12 Scope: OpenScope Scope . CloseScope Scope
+
+    T_CLOSE_SCOPE  shift, and go to state 58
+
+    CloseScope  go to state 119
+
+
+State 83
+
+   52 Unary: UnaryOp Id .
+
+    $default  reduce using rule 52 (Unary)
+
+
+State 84
+
+   54 Unary: BinaryFOp Number .
+
+    $default  reduce using rule 54 (Unary)
+
+
+State 85
+
+   53 Unary: BinaryFOp Id .
+
+    $default  reduce using rule 53 (Unary)
+
+
+State 86
+
+   33 WhileHead: T_WHILE OpenParan Expression . CloseParan
+
+    T_CLOSE_PARAN  shift, and go to state 8
+
+    CloseParan  go to state 120
+
+
+State 87
+
+   27 SwitchHead: T_SWITCH OpenParan Expression . CloseParan
+
+    T_CLOSE_PARAN  shift, and go to state 8
+
+    CloseParan  go to state 121
+
+
+State 88
+
+   67 IOStatement: T_PRINT OpenParan T_STRING . CloseParan SemiColon
+
+    T_CLOSE_PARAN  shift, and go to state 8
+
+    CloseParan  go to state 122
+
+
+State 89
+
+   70 PrintBody: T_PRINT_BODY .
+
+    $default  reduce using rule 70 (PrintBody)
+
+
+State 90
+
+   66 IOStatement: T_PRINT OpenParan PrintBody . Comma PrintInsider CloseParan SemiColon
+
+    T_COMMA  shift, and go to state 92
+
+    Comma  go to state 123
+
+
+State 91
+
+   34 VariableDefine: T_TYPE_NAME Ids SemiColon .
+
+    $default  reduce using rule 34 (VariableDefine)
+
+
+State 92
+
+   78 Comma: T_COMMA .
+
+    $default  reduce using rule 78 (Comma)
+
+
+State 93
+
+   38 Ids: Id AssignInOp . Expression
+   39    | Id AssignInOp . Expression Comma Ids
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 33
+    Expression   go to state 124
+    Operation    go to state 35
+    Unary        go to state 36
+    Assign       go to state 38
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 43
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 94
+
+   36 Ids: Id Comma . Ids
+
+    T_IDENTIFIER  shift, and go to state 18
+
+    Ids  go to state 125
+    Id   go to state 55
+
+
+State 95
+
+   35 VariableDefine: T_TINT Ids SemiColon .
+
+    $default  reduce using rule 35 (VariableDefine)
+
+
+State 96
+
+   83 Case: T_CASE .
+
+    $default  reduce using rule 83 (Case)
+
+
+State 97
+
+   84 default: T_DEFAULT .
+
+    $default  reduce using rule 84 (default)
+
+
+State 98
+
+   26 Switch: SwitchHead OpenScope SwitchBody .
+
+    $default  reduce using rule 26 (Switch)
+
+
+State 99
+
+   28 SwitchBody: CaseHead . Scope4 SwitchBody
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 61
+    T_BREAK              shift, and go to state 62
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_CONTINUE           shift, and go to state 63
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    BasicScope      go to state 64
+    Scope2          go to state 107
+    Scope4          go to state 126
+    Scope3          go to state 109
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 110
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 100
+
+   29 SwitchBody: DefaultHead . Scope4 CloseScope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 61
+    T_BREAK              shift, and go to state 62
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_CONTINUE           shift, and go to state 63
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    BasicScope      go to state 64
+    Scope2          go to state 107
+    Scope4          go to state 127
+    Scope3          go to state 109
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 110
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 101
+
+   30 SwitchBody: CloseScope .
+
+    $default  reduce using rule 30 (SwitchBody)
+
+
+State 102
+
+   31 CaseHead: Case . Expression Colon
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 33
+    Expression   go to state 128
+    Operation    go to state 35
+    Unary        go to state 36
+    Assign       go to state 38
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 43
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 103
+
+   32 DefaultHead: default . Colon
+
+    T_COLON  shift, and go to state 129
+
+    Colon  go to state 130
+
+
+State 104
+
+   17 Scope2: T_RETURN Expression3 .
+
+    $default  reduce using rule 17 (Scope2)
+
+
+State 105
+
+   15 Scope2: T_BREAK SemiColon .
+
+    $default  reduce using rule 15 (Scope2)
+
+
+State 106
+
+   16 Scope2: T_CONTINUE SemiColon .
+
+    $default  reduce using rule 16 (Scope2)
+
+
+State 107
+
+   19 Scope4: Scope2 .
+
+    $default  reduce using rule 19 (Scope4)
+
+
+State 108
+
+   18 Scope4: Scope4 . Scope2
+   21 Scope3: OpenScope Scope4 . CloseScope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_CLOSE_SCOPE        shift, and go to state 58
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 61
+    T_BREAK              shift, and go to state 62
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_CONTINUE           shift, and go to state 63
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    BasicScope      go to state 64
+    Scope2          go to state 131
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    CloseScope      go to state 132
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 109
+
+   20 Scope4: Scope3 .
+
+    $default  reduce using rule 20 (Scope4)
+
+
+State 110
+
+   21 Scope3: OpenScope . Scope4 CloseScope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 61
+    T_BREAK              shift, and go to state 62
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_CONTINUE           shift, and go to state 63
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    BasicScope      go to state 64
+    Scope2          go to state 107
+    Scope4          go to state 108
+    Scope3          go to state 109
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 110
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 111
+
+   24 While: WhileHead OpenScope CloseScope .
+
+    $default  reduce using rule 24 (While)
+
+
+State 112
+
+   47 Operation: Expression4 . T_LOGICAL_OPERATOR Expression4
+   48          | Expression4 . T_RELATIONAL_OPERATOR Expression4
+   49          | Expression4 . T_S_BINARY_OPERATOR Expression4
+   49          | Expression4 T_S_BINARY_OPERATOR Expression4 .
+   50          | Expression4 . T_F_BINARY_OPERATOR Expression4
+
+    T_S_BINARY_OPERATOR  shift, and go to state 69
+
+    $default  reduce using rule 49 (Operation)
+
+
+State 113
+
+   47 Operation: Expression4 . T_LOGICAL_OPERATOR Expression4
+   48          | Expression4 . T_RELATIONAL_OPERATOR Expression4
+   49          | Expression4 . T_S_BINARY_OPERATOR Expression4
+   50          | Expression4 . T_F_BINARY_OPERATOR Expression4
+   50          | Expression4 T_F_BINARY_OPERATOR Expression4 .
+
+    T_S_BINARY_OPERATOR  shift, and go to state 69
+
+    $default  reduce using rule 50 (Operation)
+
+
+State 114
+
+   47 Operation: Expression4 . T_LOGICAL_OPERATOR Expression4
+   48          | Expression4 . T_RELATIONAL_OPERATOR Expression4
+   48          | Expression4 T_RELATIONAL_OPERATOR Expression4 .
+   49          | Expression4 . T_S_BINARY_OPERATOR Expression4
+   50          | Expression4 . T_F_BINARY_OPERATOR Expression4
+
+    T_S_BINARY_OPERATOR  shift, and go to state 69
+    T_F_BINARY_OPERATOR  shift, and go to state 70
+
+    $default  reduce using rule 48 (Operation)
+
+
+State 115
+
+   47 Operation: Expression4 . T_LOGICAL_OPERATOR Expression4
+   47          | Expression4 T_LOGICAL_OPERATOR Expression4 .
+   48          | Expression4 . T_RELATIONAL_OPERATOR Expression4
+   49          | Expression4 . T_S_BINARY_OPERATOR Expression4
+   50          | Expression4 . T_F_BINARY_OPERATOR Expression4
+
+    T_S_BINARY_OPERATOR    shift, and go to state 69
+    T_F_BINARY_OPERATOR    shift, and go to state 70
+    T_RELATIONAL_OPERATOR  shift, and go to state 71
+
+    $default  reduce using rule 47 (Operation)
+
+
+State 116
+
+   47 Operation: Expression4 . T_LOGICAL_OPERATOR Expression4
+   48          | Expression4 . T_RELATIONAL_OPERATOR Expression4
+   49          | Expression4 . T_S_BINARY_OPERATOR Expression4
+   50          | Expression4 . T_F_BINARY_OPERATOR Expression4
+   57 Assign: Id Assign2 Expression4 .
+
+    T_S_BINARY_OPERATOR    shift, and go to state 69
+    T_F_BINARY_OPERATOR    shift, and go to state 70
+    T_RELATIONAL_OPERATOR  shift, and go to state 71
+    T_LOGICAL_OPERATOR     shift, and go to state 72
+
+    $default  reduce using rule 57 (Assign)
+
+
+State 117
+
+   56 Assign: Id Assign2 Assign .
+
+    $default  reduce using rule 56 (Assign)
+
+
+State 118
+
+   43 Expression4: OpenParan Expression4 CloseParan .
+
+    $default  reduce using rule 43 (Expression4)
+
+
+State 119
+
+   12 Scope: OpenScope Scope CloseScope . Scope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_OPEN_SCOPE         shift, and go to state 10
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 21
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    T_CLOSE_SCOPE  reduce using rule 13 (Scope)
+
+    BasicScope      go to state 26
+    Scope           go to state 133
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    OpenScope       go to state 46
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 120
+
+   33 WhileHead: T_WHILE OpenParan Expression CloseParan .
+
+    $default  reduce using rule 33 (WhileHead)
+
+
+State 121
+
+   27 SwitchHead: T_SWITCH OpenParan Expression CloseParan .
+
+    $default  reduce using rule 27 (SwitchHead)
+
+
+State 122
+
+   67 IOStatement: T_PRINT OpenParan T_STRING CloseParan . SemiColon
+
+    T_SEMI_COLON  shift, and go to state 17
+
+    SemiColon  go to state 134
+
+
+State 123
+
+   66 IOStatement: T_PRINT OpenParan PrintBody Comma . PrintInsider CloseParan SemiColon
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4   go to state 33
+    Expression    go to state 135
+    Operation     go to state 35
+    Unary         go to state 36
+    Assign        go to state 38
+    Operand       go to state 39
+    Value         go to state 40
+    Number        go to state 41
+    PrintInsider  go to state 136
+    Id            go to state 43
+    OpenParan     go to state 44
+    UnaryOp       go to state 47
+    BinaryFOp     go to state 48
+
+
+State 124
+
+   38 Ids: Id AssignInOp Expression .
+   39    | Id AssignInOp Expression . Comma Ids
+
+    T_COMMA  shift, and go to state 92
+
+    $default  reduce using rule 38 (Ids)
+
+    Comma  go to state 137
+
+
+State 125
+
+   36 Ids: Id Comma Ids .
+
+    $default  reduce using rule 36 (Ids)
+
+
+State 126
+
+   18 Scope4: Scope4 . Scope2
+   28 SwitchBody: CaseHead Scope4 . SwitchBody
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_CLOSE_SCOPE        shift, and go to state 58
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_CASE               shift, and go to state 96
+    T_DEFAULT            shift, and go to state 97
+    T_RETURN             shift, and go to state 61
+    T_BREAK              shift, and go to state 62
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_CONTINUE           shift, and go to state 63
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    BasicScope      go to state 64
+    Scope2          go to state 131
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    SwitchBody      go to state 138
+    CaseHead        go to state 99
+    DefaultHead     go to state 100
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    CloseScope      go to state 101
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+    Case            go to state 102
+    default         go to state 103
+
+
+State 127
+
+   18 Scope4: Scope4 . Scope2
+   29 SwitchBody: DefaultHead Scope4 . CloseScope
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_SEMI_COLON         shift, and go to state 17
+    T_OPEN_PARAN         shift, and go to state 6
+    T_CLOSE_SCOPE        shift, and go to state 58
+    T_IDENTIFIER         shift, and go to state 18
+    T_WHILE              shift, and go to state 19
+    T_SWITCH             shift, and go to state 20
+    T_RETURN             shift, and go to state 61
+    T_BREAK              shift, and go to state 62
+    T_CHARACTER          shift, and go to state 22
+    T_PRINT              shift, and go to state 23
+    T_CONTINUE           shift, and go to state 63
+    T_TYPE_NAME          shift, and go to state 24
+    T_TINT               shift, and go to state 25
+
+    BasicScope      go to state 64
+    Scope2          go to state 131
+    While           go to state 28
+    Switch          go to state 29
+    SwitchHead      go to state 30
+    WhileHead       go to state 31
+    VariableDefine  go to state 32
+    Expression4     go to state 33
+    Expression      go to state 34
+    Operation       go to state 35
+    Unary           go to state 36
+    Expression3     go to state 37
+    Assign          go to state 38
+    Operand         go to state 39
+    Value           go to state 40
+    Number          go to state 41
+    IOStatement     go to state 42
+    Id              go to state 43
+    OpenParan       go to state 44
+    SemiColon       go to state 45
+    CloseScope      go to state 139
+    UnaryOp         go to state 47
+    BinaryFOp       go to state 48
+
+
+State 128
+
+   31 CaseHead: Case Expression . Colon
+
+    T_COLON  shift, and go to state 129
+
+    Colon  go to state 140
+
+
+State 129
+
+   77 Colon: T_COLON .
+
+    $default  reduce using rule 77 (Colon)
+
+
+State 130
+
+   32 DefaultHead: default Colon .
+
+    $default  reduce using rule 32 (DefaultHead)
+
+
+State 131
+
+   18 Scope4: Scope4 Scope2 .
+
+    $default  reduce using rule 18 (Scope4)
+
+
+State 132
+
+   21 Scope3: OpenScope Scope4 CloseScope .
+
+    $default  reduce using rule 21 (Scope3)
+
+
+State 133
+
+   12 Scope: OpenScope Scope CloseScope Scope .
+
+    $default  reduce using rule 12 (Scope)
+
+
+State 134
+
+   67 IOStatement: T_PRINT OpenParan T_STRING CloseParan SemiColon .
+
+    $default  reduce using rule 67 (IOStatement)
+
+
+State 135
+
+   69 PrintInsider: Expression .
+
+    $default  reduce using rule 69 (PrintInsider)
+
+
+State 136
+
+   66 IOStatement: T_PRINT OpenParan PrintBody Comma PrintInsider . CloseParan SemiColon
+   68 PrintInsider: PrintInsider . Comma Expression
+
+    T_CLOSE_PARAN  shift, and go to state 8
+    T_COMMA        shift, and go to state 92
+
+    CloseParan  go to state 141
+    Comma       go to state 142
+
+
+State 137
+
+   39 Ids: Id AssignInOp Expression Comma . Ids
+
+    T_IDENTIFIER  shift, and go to state 18
+
+    Ids  go to state 143
+    Id   go to state 55
+
+
+State 138
+
+   28 SwitchBody: CaseHead Scope4 SwitchBody .
+
+    $default  reduce using rule 28 (SwitchBody)
+
+
+State 139
+
+   29 SwitchBody: DefaultHead Scope4 CloseScope .
+
+    $default  reduce using rule 29 (SwitchBody)
+
+
+State 140
+
+   31 CaseHead: Case Expression Colon .
+
+    $default  reduce using rule 31 (CaseHead)
+
+
+State 141
+
+   66 IOStatement: T_PRINT OpenParan PrintBody Comma PrintInsider CloseParan . SemiColon
+
+    T_SEMI_COLON  shift, and go to state 17
+
+    SemiColon  go to state 144
+
+
+State 142
+
+   68 PrintInsider: PrintInsider Comma . Expression
+
+    error                shift, and go to state 12
+    T_INT                shift, and go to state 13
+    T_FLOAT              shift, and go to state 14
+    T_F_BINARY_OPERATOR  shift, and go to state 15
+    T_UNARY_OPERATOR     shift, and go to state 16
+    T_OPEN_PARAN         shift, and go to state 6
+    T_IDENTIFIER         shift, and go to state 18
+    T_CHARACTER          shift, and go to state 22
+
+    Expression4  go to state 33
+    Expression   go to state 145
+    Operation    go to state 35
+    Unary        go to state 36
+    Assign       go to state 38
+    Operand      go to state 39
+    Value        go to state 40
+    Number       go to state 41
+    Id           go to state 43
+    OpenParan    go to state 44
+    UnaryOp      go to state 47
+    BinaryFOp    go to state 48
+
+
+State 143
+
+   39 Ids: Id AssignInOp Expression Comma Ids .
+
+    $default  reduce using rule 39 (Ids)
+
+
+State 144
+
+   66 IOStatement: T_PRINT OpenParan PrintBody Comma PrintInsider CloseParan SemiColon .
+
+    $default  reduce using rule 66 (IOStatement)
+
+
+State 145
+
+   68 PrintInsider: PrintInsider Comma Expression .
+
+    $default  reduce using rule 68 (PrintInsider)
