@@ -21,3 +21,9 @@ Lex 2.6.4 ,Yacc 1.9 (sudo apt-get install byacc flex)
   * cd Mini-GO-compiler/Phase2
   * chmod +x  ex.sh
   * ./ex.sh (if doesnt work  chmod +x  ex.sh)
+* Phase 4
+  * cd Mini-GO-compiler/Phase4
+  * chmod +x  ex.sh
+  * ./ex.sh (if doesnt work  chmod +x  ex.sh)
+  * outputs has the AST
+  * three address code in generated
