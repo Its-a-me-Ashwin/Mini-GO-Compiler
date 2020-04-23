@@ -1,5 +1,5 @@
 # Mini-GO-Compiler
-CD Project
+CD Project Mini GO Compiler (While and Switch statements)
 
 
 ## To Do
