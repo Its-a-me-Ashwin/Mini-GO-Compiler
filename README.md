@@ -45,3 +45,7 @@ CD Project Mini GO Compiler (While and Switch statements)
   * Unptimized and Optimized Three address code are generated 
   * Code Optimization techniques (Constant folding and constant propogation)
   * Code also displays the assembly code generated (ARM based)
+
+
+### Link to video:
+  https://drive.google.com/file/d/1XPOOsHY8MwMgSpWuOZyXLKgryM9BA-qx/view?usp=sharing
